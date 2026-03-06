@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovateurs Unis - Plateforme Médicale</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo"><i class="fas fa-hands-helping"></i> Innovateurs Unis</div>
+    <ul class="nav-links">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#rendez-vous">Rendez-vous</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="emergency-btn" onclick="appelerUrgences()"><i class="fas fa-ambulance"></i> URGENCE</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="accueil" class="hero">
+  <div class="hero-content">
+    <h1>Bienvenue chez <span class="highlight">Innovateurs Unis</span></h1>
+    <p>Un groupe d'entrepreneurs dévoués à l'innovation et au service de la santé</p>
+    <div class="hero-buttons">
+      <a href="#rendez-vous" class="btn btn-primary">Prendre Rendez-vous</a>
+      <a href="#services" class="btn btn-secondary">Nos Services</a>
+    </div>
+  </div>
+  <div class="hero-image"><i class="fas fa-user-md"></i></div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+  <h2 class="section-title">Nos Services</h2>
+  <p class="section-subtitle">Des solutions médicales complètes pour votre bien-être</p>
+  <div class="services-grid">
+    <div class="service-card"><div class="icon-box"><i class="fas fa-stethoscope"></i></div><h3>Consultation Générale</h3><p>Consultations avec des médecins généralistes pour tous vos besoins de santé.</p></div>
+    <div class="service-card"><div class="icon-box"><i class="fas fa-heartbeat"></i></div><h3>Cardiologie</h3><p>Spécialistes en santé cardiaque pour un suivi complet de votre cœur.</p></div>
+    <div class="service-card"><div class="icon-box"><i class="fas fa-tooth"></i></div><h3>Dentisterie</h3><p>Services dentaires complets pour une santé bucco-dentaire optimale.</p></div>
+    <div class="service-card"><div class="icon-box"><i class="fas fa-baby"></i></div><h3>Pédiatrie</h3><p>Soins spécialisés pour les enfants et adolescents.</p></div>
+    <div class="service-card"><div class="icon-box"><i class="fas fa-eye"></i></div><h3>Ophthalmologie</h3><p>Examens de la vue et soins oculaires par des experts.</p></div>
+    <div class="service-card"><div class="icon-box"><i class="fas fa-brain"></i></div><h3>Neurologie</h3><p>Spécialistes du système nerveux et des troubles neurologiques.</p></div>
+  </div>
+</section>
+
+<!-- APPOINTMENTS -->
+<section id="rendez-vous" class="appointments">
+  <h2 class="section-title">Prendre Rendez-vous</h2>
+  <p class="section-subtitle">Choisissez votre médecin et réservez votre créneau</p>
+  <div class="appointment-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="specialty">Spécialité</label>
+        <select id="specialty" onchange="filterDoctors()">
+          <option value="">Toutes les spécialités</option>
+          <option value="Médecin Généraliste">Médecin Généraliste</option>
+          <option value="Cardiologue">Cardiologue</option>
+          <option value="Dentiste">Dentiste</option>
+          <option value="Pédiatre">Pédiatre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="showDoctors()">Rechercher les Médecins</button>
+  </div>
+  <div id="doctors-list" class="doctors-list" style="display:none;">
+    <h3>Médecins Disponibles</h3>
+    <div class="doctors-grid" id="doctors-grid"></div>
+  </div>
+</section>
+
+<!-- EMERGENCY -->
+<section id="urgences" class="emergency-section">
+  <div class="emergency-box">
+    <i class="fas fa-ambulance" style="font-size:3em;color:#ff4d4d;"></i>
+    <h2>En Cas d'Urgence</h2>
+    <p>Si vous êtes en situation d'urgence médicale, contactez directement les services d'urgence.</p>
+    <div class="emergency-buttons">
+      <button class="btn-emergency" onclick="appelerUrgences()"><i class="fas fa-phone"></i> Urgences</button>
+      <button class="btn-emergency-secondary" onclick="appelerPolice()"><i class="fas fa-shield-alt"></i> Police</button>
+      <button class="btn-emergency-secondary" onclick="appelerPompiers()"><i class="fas fa-fire-extinguisher"></i> Pompiers</button>
+    </div>
+    <p class="emergency-note">* Ces numéros sont réservés aux situations d'urgence réelle</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <h2 class="section-title">Contactez-nous</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><h4>Adresse</h4><p>123 Avenue de l'Innovation, Casablanca, Maroc</p></div></div>
+      <div class="contact-item"><i class="fas fa-phone"></i><div><h4>Téléphone</h4><p>+212 5 22 33 44 55</p></div></div>
+      <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>contact@innovateurs-unis.ma</p></div></div>
+    </div>
+    <div class="contact-form">
+      <form onsubmit="sendContact(event)">
+        <input type="text" placeholder="Votre Nom" required>
+        <input type="email" placeholder="Votre Email" required>
+        <textarea placeholder="Votre Message" rows="5" required></textarea>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Innovateurs Unis</h3>
+      <p>Un groupe d'entrepreneurs dévoués à l'innovation et au service de la santé.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Liens Rapides</h4>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#rendez-vous">Rendez-vous</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Suivez-nous</h4>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Innovateurs Unis. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="confirmation-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+    <h3>Rendez-vous Confirmé!</h3>
+    <p id="confirmation-message"></p>
+    <button class="btn btn-primary" onclick="closeModal()">Fermer</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
