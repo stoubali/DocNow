@@ -23,6 +23,9 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="emergency-btn" onclick="appelerUrgences()"><i class="fas fa-ambulance"></i> URGENCE</button>
+    <div class="language-switcher">
+    <div class="gtranslate_wrapper"></div>
+    </div>
   </div>
 </nav>
 
@@ -167,6 +170,18 @@
 </div>
 
 <script src="script.js"></script>
+
+<script>
+window.gtranslateSettings = {
+"default_language":"fr",
+"languages":["fr","en","ar"],
+"wrapper_selector":".gtranslate_wrapper",
+"switcher_horizontal_position":"right",
+"flag_style":"3d"
+}
+</script>
+
+<script src="https://cdn.gtranslate.net/widgets/latest/flags.js" defer></script>
 
 </body>
 </html>
