@@ -26,47 +26,72 @@ function parseCSVRow(row) {
 }
 
 // ===== LOAD DOCTORS FROM GOOGLE SHEET =====
+// ===== LOAD DOCTORS FROM GOOGLE SHEET =====
 async function loadDoctorsFromSheet() {
   try {
     const res = await fetch(SHEET_URL);
     const data = await res.text();
 
-    const rows = data.split("\n").slice(1); // skip header
+    const rows = data.split("\n").slice(1); // Skip header
     doctors = [];
 
     rows.forEach(row => {
-      if (!row.trim()) return; // skip empty rows
+      if (!row.trim()) return;
 
       const cols = parseCSVRow(row);
+      
+      // Extract data (Adjust column numbers if you changed your Sheet layout!)
+      const name = cols[2]?.trim();
+      const specialty = cols[3]?.trim();
+      const location = cols[4]?.trim();
+      const confirmation = cols[7]?.trim().toLowerCase(); // Convert to lowercase for easier checking
+      const slotsRaw = cols[8];
 
-      const name = cols[2];          // Nom du médecin
-      const specialty = cols[3];     // Spécialité
-      const location = cols[4];      // Ville
-      const confirmation = cols[7];  // Confirmation
-      const slotsRaw = cols[8];      // Slots Clean
-
-      // ONLY approved doctors
-      if (confirmation && confirmation.trim().toUpperCase() === "TRUE") {
-
-        const slots = slotsRaw
-          ? slotsRaw.split(";").map(s => s.trim())
-          : [];
+      // IMPROVED CHECK: Only add if confirmation is exactly "true"
+      if (confirmation === "true") {
+        const slots = slotsRaw ? slotsRaw.split(";").map(s => s.trim()).filter(s => s !== "") : [];
 
         doctors.push({
-          name: name?.trim(),
-          specialty: specialty?.trim(),
-          location: location?.trim(),
-          slots
+          name: name,
+          specialty: specialty,
+          location: location,
+          slots: slots
         });
       }
     });
 
-    console.log("✅ Doctors loaded:", doctors);
+    console.log("✅ Confirmed doctors loaded:", doctors);
+    
+    // Refresh the dropdown list based on the doctors we actually found
+    populateSpecialties();
 
   } catch (error) {
     console.error("❌ Error loading doctors:", error);
   }
 }
+
+// ===== DYNAMICALLY FILL SPECIALTY DROPDOWN =====
+function populateSpecialties() {
+  const specialtySelect = document.getElementById("specialty");
+  if (!specialtySelect) return;
+
+  // 1. Get unique specialties from the 'doctors' array (which only contains 'TRUE' doctors)
+  const uniqueSpecialties = [...new Set(doctors.map(d => d.specialty))].filter(Boolean).sort();
+
+  // 2. Reset the dropdown but keep the "All" option
+  specialtySelect.innerHTML = '<option value="">Toutes les spécialités</option>';
+
+  // 3. Add the specialties that actually have doctors available
+  uniqueSpecialties.forEach(spec => {
+    const option = document.createElement("option");
+    option.value = spec;
+    option.textContent = spec;
+    specialtySelect.appendChild(option);
+  });
+}
+
+// Call this when the page loads so the data is ready immediately
+window.addEventListener('DOMContentLoaded', loadDoctorsFromSheet);
 
 // ===== SHOW DOCTORS =====
 async function showDoctors() {
